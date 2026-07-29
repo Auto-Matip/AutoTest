@@ -12,6 +12,8 @@ repositories {
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    // Source: https://mvnrepository.com/artifact/org.assertj/assertj-core
+    testImplementation("org.assertj:assertj-core:3.27.7")
 }
 
 tasks.test {
@@ -28,20 +30,22 @@ tasks.register<Test>("runtest") {
 tasks.register<Test>("launch") {
     group = "practic"
     useJUnitPlatform {
-        includeTags("Smoke")
+        includeTags("Assert")
     }
     }
+
+
 
 tasks.named("launch") {
     dependsOn("affterLaunch")
 
 }
 
-
 tasks.register("affterLaunch"){
     group = "practic"
     println("Test run is over!")
 }
+
 
 tasks.register<Test>("smoke") {
     systemProperty("CIRCUIT", System.getProperty("circuit","DEV"))

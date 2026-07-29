@@ -4,15 +4,19 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+;
+
+
 public class TestMain {
     @Test
     public void test () {
-        //String[] messages = {"Aye","No","ug"};
-        //System.out.println(unit.Practic.hasBug(messages));
+        String[] messages = {"Aye","No","ug"};
+        System.out.println(Practic.hasBug(messages));
 
 
 
-        System.out.println(unit.Practic.getEvenInRange(1,36));
+
+
 
         //int[] arr = {1,-108,-12};
         //System.out.println(unit.Practic.findMax(arr));
