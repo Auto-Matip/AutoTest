@@ -14,6 +14,9 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     // Source: https://mvnrepository.com/artifact/org.assertj/assertj-core
     testImplementation("org.assertj:assertj-core:3.27.7")
+    // Source: https://mvnrepository.com/artifact/io.rest-assured/rest-assured
+    implementation("io.rest-assured:rest-assured:5.5.6")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.22.1")
 }
 
 tasks.test {
