@@ -2,6 +2,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import rest.assertions.BasicApiAssert;
 import rest.endpoints.GoodsApi;
+import rest.endpoints.ParallelContext;
 
 
 @DisplayName("[GET]/goods/Id")
@@ -14,7 +15,10 @@ public class GetGoodById {
     @Order(7)
     @DisplayName("200")
     void getGoodId() {
-        Response response = new GoodsApi().getGoodId("1");
+        System.out.println(ParallelContext.get());
+        String id = ParallelContext.get();
+        System.out.println(id);
+        Response response = new GoodsApi().getGoodId(id);
         BasicApiAssert.assertThat(response)
                 .statusCodeIsEquals(200)
                 .fieldIsExists("id")

@@ -12,21 +12,31 @@ repositories {
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    // Source: https://mvnrepository.com/artifact/org.assertj/assertj-core
-    implementation("org.assertj:assertj-core:3.27.7")
-    // Source: https://mvnrepository.com/artifact/io.rest-assured/rest-assured
+   implementation("org.assertj:assertj-core:3.27.7")
     implementation("io.rest-assured:rest-assured:5.5.6")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.22.1")
+    //testImplementation("org.junit.jupiter:junit-jupiter:5.12.2")
+    // testImplementation("org.junit.platform:junit-platform-suite:1.12.2")
+    implementation("org.seleniumhq.selenium:selenium-java:4.46.0")
+    implementation("com.codeborne:selenide:7.17.0")
 }
 
 tasks.test {
     useJUnitPlatform()
 }
 
+
 tasks.register<Test>("resttest") {
     group = "api"
     useJUnitPlatform {
         includeTags("Rest")
+    }
+}
+
+tasks.register<Test>("uitest") {
+    group = "ui"
+    useJUnitPlatform {
+        includeTags("ui")
     }
 }
 
@@ -89,7 +99,24 @@ tasks.register<Test>("runTagsInOrder") {
     dependsOn(CreateTest, GetGoodsTest, GetGoodByIdTest, ChangeGoodTest, DeleteGoodTest)
 }
 
+val CrTest by tasks.registering(Test::class) {
+    group = "apiTest"
+    useJUnitPlatform {
+        includeTags("CR")
+    }
+}
 
+val DeleteTest by tasks.registering(Test::class) {
+    group = "apiTest"
+    useJUnitPlatform {
+        includeTags("Del")
+    }
+    mustRunAfter(CrTest)
+}
 
+tasks.register<Test>("runTags") {
+    group = "apiTest"
+    description = "Запуск тестов по очереди"
 
-
+    dependsOn(CrTest, DeleteTest)
+}

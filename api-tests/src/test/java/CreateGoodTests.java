@@ -2,6 +2,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import rest.assertions.BasicApiAssert;
 import rest.endpoints.GoodsApi;
+import rest.endpoints.ParallelContext;
 import rest.endpoints.Urls;
 
 import java.util.Random;
@@ -35,6 +36,8 @@ public class CreateGoodTests {
         idAsString = response.jsonPath().getString("data.id");
         sharedId = idAsString;
         System.out.println(idAsString);
+        ParallelContext.set(sharedId);
+        System.out.println(ParallelContext.get());
         BasicApiAssert.assertThat(response)
                 .statusCodeIsEquals(200)
                 .fieldIsExists("data.id")

@@ -13,6 +13,7 @@ public class GoodsApi {
         return getBuilder().setContentJSON().getSpec()
                 .body(new DTOGood(name, price))
                 .post(ADD);
+
     }
 
     public Response getGood(){
@@ -33,6 +34,8 @@ public class GoodsApi {
                 .body(new DTOGood(name, price))
                 .patch("/"+id);
     }
+
+
 
 
 }
