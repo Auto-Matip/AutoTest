@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import rest.assertions.BasicApiAssert;
@@ -19,6 +20,7 @@ public class ChangeGoodTests {
     @Test
     @Order(10)
     @DisplayName("200")
+    @Step("Успешное изменение товара")
     void changeGoodId() {
         Response response = new GoodsApi().ChangeGoodId("1",goodName,price);
         BasicApiAssert.assertThat(response)
@@ -31,6 +33,7 @@ public class ChangeGoodTests {
     @Test
     @Order(11)
     @DisplayName("Create Duplicate")
+    @Step("Создание дубликата товара")
     void addNewGoodWithWrongName(){
         Response response = new GoodsApi().createGood("Char",2.0d);
 
@@ -39,6 +42,7 @@ public class ChangeGoodTests {
     @Test
     @Order(12)
     @DisplayName("400")
+    @Step("Проверка невозможности создания двух товаров с одинаковым именем")
     void changeGoodId1() {
         Response response = new GoodsApi().ChangeGoodId("1","Char",price);
         BasicApiAssert.assertThat(response)
@@ -47,6 +51,7 @@ public class ChangeGoodTests {
     }
     @Test
     @Order(13)
+    @Step("Проверка что если попытаться изменить несуществующий товар то получаем код - 404")
     @DisplayName("404")
     void changeGoodId2() {
         Response response = new GoodsApi().ChangeGoodId("0",goodName, price);

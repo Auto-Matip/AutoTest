@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import rest.assertions.BasicApiAssert;
@@ -13,6 +14,7 @@ public class DeleteGood {
     @Test
     @Order(14)
     @DisplayName("200")
+    @Step("Успешное удаление товара с id = 1")
     void deleteGoodId() {
         Response response = new GoodsApi().DeleteGoodId("1");
         BasicApiAssert.assertThat(response)
@@ -21,6 +23,7 @@ public class DeleteGood {
     @Test
     @Order(15)
     @DisplayName("200")
+    @Step("Успешное удаление товара с id = 2")
     void deleteGoodId2() {
         Response response = new GoodsApi().DeleteGoodId("2");
         BasicApiAssert.assertThat(response)
@@ -30,6 +33,7 @@ public class DeleteGood {
     @Test
     @Order(16)
     @DisplayName("404")
+    @Step("Не успешный кейс удаления товара с несуществующим id")
     void deleteGoodWithWrongId() {
         Response response = new GoodsApi().DeleteGoodId("0");
         BasicApiAssert.assertThat(response)

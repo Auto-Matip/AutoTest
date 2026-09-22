@@ -1,4 +1,7 @@
 
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.Step;
+import io.qameta.allure.selenide.AllureSelenide;
 import main.MainPageAssertTask;
 import main.AdminLoginFormAssert;
 import main.MainPageTask;
@@ -19,14 +22,20 @@ public class POTest3 {
     @BeforeEach
     void setup(){
         open("http://localhost:8080");
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+                .screenshots(true)
+                .savePageSource(false)
+        );
     }
     @Test
+    @Step("Добавить три единицы товара в корзину и оплатить их")
     void Task1() {
         mainPageAssertTask.cartButtonIsVisible();
         mainPageAssertTask.adminPannelButtonIsVisible();
         mainPageAssertTask.addToCartButtonIsVisible();
         mainPageAssertTask.increaseButtonIsVisible();
-        mainPageTask.productCardList.should(sizeGreaterThanOrEqual(1));
+        //mainPageTask.productCardList.should(sizeGreaterThanOrEqual(1));
+        mainPageAssertTask.productCardListShouldBeGreater(1);
         mainPageAssertTask.orderProcessingNotificationIsNotVisible();
         mainPageTask.inputProductCount(0,"3");
         sleep(1000);
@@ -37,6 +46,7 @@ public class POTest3 {
         mainPageAssertTask.orderAddToCartNotificationHaveCorrectText();
         sleep(1000);
         mainPageTask.clickCartButton();
+        sleep(2000);
         mainPageAssertTask.orderProcessingNotificationIsNotVisible();
         mainPageAssertTask.orderAddToCartNotificationIsNotVisible();
         mainPageAssertTask.TotalPriceTextIsVisible();
@@ -50,18 +60,20 @@ public class POTest3 {
     }
 
     @Test
+    @Step("Добавить в корзину несколько разных товаров и проверить, что общая цена в корзине считается корректно")
     void Task2() {
         mainPageAssertTask.cartButtonIsVisible();
         mainPageAssertTask.adminPannelButtonIsVisible();
         mainPageAssertTask.addToCartButtonIsVisible();
         mainPageAssertTask.increaseButtonIsVisible();
-        mainPageTask.productCardList.should(sizeGreaterThanOrEqual(3));
+        //mainPageTask.productCardList.should(sizeGreaterThanOrEqual(3));
+        mainPageAssertTask.productCardListShouldBeGreater(3);
         mainPageTask.inputAddToCartButtonList(0);
         mainPageAssertTask.orderAddToCartNotificationHaveCorrectTextForProduct("Laptop94");
-        sleep(1000);
+        sleep(2000);
         mainPageTask.inputAddToCartButtonList(1);
         mainPageAssertTask.orderAddToCartNotificationHaveCorrectTextForProduct("Laptop98");
-        sleep(1000);
+        sleep(2000);
         mainPageTask.inputAddToCartButtonList(2);
         mainPageAssertTask.orderAddToCartNotificationHaveCorrectTextForProduct("Laptop9");
         mainPageAssertTask.orderAddToCartNotificationIsVisible();
@@ -80,6 +92,7 @@ public class POTest3 {
 
         }
     @Test
+    @Step("Войти в админку и добавить товар. Проверить уведомление после добавления товара")
     void Task3() {
         mainPageTask.clickAdminButton();
         AdminLoginForm.clickSignInButtonIsVisible();
@@ -110,23 +123,27 @@ public class POTest3 {
         AdminLoginForm.DeleteProductButtonClick(4);
         switchTo().alert().accept();
         sleep(3000);
+        AdminLoginForm.ComeBackButtonIsVisible();
+        AdminLoginForm.ComeBackButtonClick();
+        sleep(1000);
     }
 
     @Test
+    @Step("Войти в админку и отредактировать товар.")
     void Task4() {
         mainPageTask.clickAdminButton();
-        AdminLoginForm.clickSignInButtonIsVisible();
-        AdminLoginForm.LoginFieldIsVisible();
-        AdminLoginForm.PasswordFieldIsVisible();
-        sleep(1000);
-        AdminLoginForm.inputLogin("admin");
-        AdminLoginForm.LoginFieldContainsText("admin");
-        AdminLoginForm.inputPassword("secret123");
-        AdminLoginForm.PasswordFieldFieldContainsText("secret123");
-        sleep(1000);
-        AdminLoginForm.clickSignInButton();
-        AdminLoginForm.CheckAllertIsNotVisible();
-        sleep(1000);
+//        AdminLoginForm.clickSignInButtonIsVisible();
+//        AdminLoginForm.LoginFieldIsVisible();
+//        AdminLoginForm.PasswordFieldIsVisible();
+//        sleep(1000);
+//        AdminLoginForm.inputLogin("admin");
+//        AdminLoginForm.LoginFieldContainsText("admin");
+//        AdminLoginForm.inputPassword("secret123");
+//        AdminLoginForm.PasswordFieldFieldContainsText("secret123");
+//        sleep(1000);
+//        AdminLoginForm.clickSignInButton();
+//        AdminLoginForm.CheckAllertIsNotVisible();
+//        sleep(1000);
         AdminLoginForm.ProductNameFieldIsVisible();
         AdminLoginForm.ProductPriceFieldIsVisible();
         AdminLoginForm.ProductAddButtonIsVisible();

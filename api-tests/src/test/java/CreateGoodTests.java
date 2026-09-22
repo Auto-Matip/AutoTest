@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import rest.assertions.BasicApiAssert;
@@ -5,6 +6,9 @@ import rest.endpoints.GoodsApi;
 import rest.endpoints.ParallelContext;
 import rest.endpoints.Urls;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.Random;
 
 import static rest.RestApiBuilder.getBuilder;
@@ -30,6 +34,7 @@ public class CreateGoodTests {
     @Test
     @Order(1)
     @DisplayName("200")
+    @Step("Успешное создание нового товара")
     void addNewGood() {
         Response response = new GoodsApi().createGood(goodName,price);
         String idAsString;
@@ -50,6 +55,7 @@ public class CreateGoodTests {
     @Test
     @Order(2)
     @DisplayName("CheckId")
+    @Step("Проверка что товар есть в спике товаров")
     void getGoods() {
         System.out.println(sharedId);
         Response response = new GoodsApi().getGood();
@@ -65,6 +71,7 @@ public class CreateGoodTests {
     @Test
     @Order(3)
     @DisplayName("getGoodById")
+    @Step("Проверка что товар с id есть в Базе")
     void getGoodId() {
         Response response = new GoodsApi().getGoodId(sharedId);
         BasicApiAssert.assertThat(response)
@@ -79,6 +86,7 @@ public class CreateGoodTests {
     @Test
     @Order(4)
     @DisplayName("400")
+    @Step("Проверка что добавление товара с отрицательной ценой возвращает 400 ошибку")
     void addNewGoodWithNegativePrice(){
         Response response = new GoodsApi().createGood(goodName,-2.0d);
         BasicApiAssert.assertThat(response)
@@ -88,6 +96,7 @@ public class CreateGoodTests {
     @Test
     @Order(5)
     @DisplayName("500")
+    @Step("Проверка что добавление товара с некорректным названием возвращает 500 ошибку")
     void addNewGoodWithWrongName(){
         Response response = new GoodsApi().createGood("Table # 4673",2.0d);
         BasicApiAssert.assertThat(response)

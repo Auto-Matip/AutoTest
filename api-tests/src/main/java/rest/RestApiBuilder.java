@@ -1,5 +1,6 @@
 package rest;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
@@ -13,13 +14,17 @@ public class RestApiBuilder {
     PASS = "secret123";
 
     public RestApiBuilder() {
-        spec = given().baseUri(BASIC_URL).basePath(GOODS)
+        spec = given()
+                .filter(new AllureRestAssured())
+                .baseUri(BASIC_URL).basePath(GOODS)
                 .log().all()
                 .relaxedHTTPSValidation();
     }
 
     public RestApiBuilder(String url){
-        spec = given().baseUri(url);
+        spec = given()
+                .filter(new AllureRestAssured())
+                .baseUri(url);
     }
 
 

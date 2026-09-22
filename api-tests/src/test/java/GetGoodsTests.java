@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
@@ -15,6 +16,7 @@ public class GetGoodsTests {
     @Test
     @Order(6)
     @DisplayName("200")
+    @Step("Успешное получение списка товаров")
     void getGoods() {
         Response response = new GoodsApi().getGood();
         BasicApiAssert.assertThat(response)
